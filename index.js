@@ -62,7 +62,7 @@ const addDepartments = () => {
     
     , (err) => {
         if (err) throw err;
-        start();
+        manage();
     }
     )
 })
@@ -93,7 +93,7 @@ const addRoles = () => {
         
     }, (err) => {
         if (err) throw err;
-        start();
+        manage();
     }
     )
 })
@@ -130,28 +130,66 @@ const addEmployees = () => {
         manager_id: answer.managerId
     }, (err) => {
         if (err) throw err;
-        start();
+        manage();
     }
     )
 })
 }
 const viewDepartments = () => {
-
+    connection.query("SELECT * FROM department", (err, res) => {
+        if (err) throw err
+        console.log(res)
+        start()
+    })
 }
 const viewRoles = () => {
-      
+    connection.query("SELECT * FROM role", (err, res) => {
+        if (err) throw err
+        console.log(res)
+        start()
+    })
 }
 const viewEmployees = () => {
     connection.query('SELECT * FROM employee INNER JOIN role ON employee.role_id = role.id', (err, res) => {
         if (err) throw err;
-    
-        // Log all results of the SELECT statement
         console.log(res);
-        inquirerMenu(); 
+        manage(); 
       })
 }
 const updateEmployeeRoles = () => {
-      
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "What do you want the new Title to be?",
+                name: "title"
+                
+            },
+            {
+                type: "input",
+                message: "What is the new Salary?",
+                name: "salary"
+                
+            },
+            {
+                type: "input",
+                message: "What is the new Department ID?",
+                name: "departmentId"
+                
+            }
+        ])
+        .then((answer) => {
+            connection.query("UPDATE role SET ?",
+            {
+                title: answer.title,
+                salary: answer.salary,
+                department_id: answer.departmentId
+            }, (err) => {
+                if (err) throw err;
+                manage();
+            }
+            )
+        })
 }
 
 connection.connect((err) => {
