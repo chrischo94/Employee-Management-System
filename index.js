@@ -195,5 +195,5 @@ const updateEmployeeRoles = () => {
 connection.connect((err) => {
     if (err) throw err;
     console.log(`connected as id ${connection.threadId}\n`);
-    start();
+    manage();
   });
