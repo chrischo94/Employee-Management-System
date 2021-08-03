@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+const mysql = require('mysql');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
 
@@ -12,8 +12,8 @@ const connection = mysql.createConnection({
     user: 'root',
 
     // Be sure to update with your own MySQL password!
-    password: 'Drose1chi',
-    database: 'employee_trackerDB',
+    password: 'Squad#1017',
+    database: 'employeeTracker',
 });
 
 const manage = () => {
@@ -23,7 +23,7 @@ const manage = () => {
             type: 'list',
             message: 'What would you like to do?',
             choices: [
-                "Add Departments", "Add Roles", "Add Employees", "View Departments", "View Roles", "View Employees", "Update Employee Roles"
+                "Add Departments", "Add Roles", "Add Employees", "View Departments", "View Roles", "View Employees", "Update Employee Roles", "No More"
             ],
         })
         .then((answer) => {
@@ -139,18 +139,18 @@ const viewDepartments = () => {
     connection.query("SELECT * FROM department", (err, res) => {
         if (err) throw err
         console.log(res)
-        start()
+        manage()
     })
 }
 const viewRoles = () => {
     connection.query("SELECT * FROM role", (err, res) => {
         if (err) throw err
         console.log(res)
-        start()
+        manage()
     })
 }
 const viewEmployees = () => {
-    connection.query('SELECT * FROM employee INNER JOIN role ON employee.role_id = role.id', (err, res) => {
+    connection.query('SELECT * FROM employee', (err, res) => {
         if (err) throw err;
         console.log(res);
         manage(); 
